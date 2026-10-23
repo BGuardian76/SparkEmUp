@@ -2,7 +2,7 @@
 
 # SparkEmUp
 
-A desktop workbench for Apache Spark on your own computer: write SQL, Python and Scala in notebooks, run them on a local Spark 4.1, and browse the tables, files and databases they work with. No cluster is needed.
+A desktop workbench for Apache Spark on your own computer: write SQL, Python and Scala in notebooks, run them on a local Spark 4.1 or 3.5, and browse the tables, files and databases they work with. No cluster is needed.
 
 This repository hosts **installers and release notes only**. It is the public download point for SparkEmUp. Source code is developed elsewhere; builds are published here as [GitHub Releases](../../releases).
 
@@ -17,11 +17,12 @@ Grab the latest installer for your platform from the [Releases page](../../relea
 
 ## First run
 
-SparkEmUp brings its own Java and Spark and uses nothing installed on your machine: no `JAVA_HOME`, `SPARK_HOME`, `HADOOP_HOME` or winutils. On first start it downloads them once (about 1 GB), checking each download's checksum:
+SparkEmUp brings its own Java and Spark and uses nothing installed on your machine: no `JAVA_HOME`, `SPARK_HOME`, `HADOOP_HOME` or winutils. On first start you choose which runtimes to download, once, checking each download's checksum:
 
-- Eclipse Temurin Java 21
-- Apache Spark 4.1.3
-- the libraries for Delta Lake, Avro and Excel files, and Azure storage
+- **Spark 4.1** (the default): Eclipse Temurin Java 21, Apache Spark 4.1.3 and Scala 2.13
+- **Spark 3.5**: Eclipse Temurin Java 17, Apache Spark 3.5 and Scala 2.12, with its own Python for Python cells, for jars built for Spark 3
+
+Each comes with the libraries for Delta Lake, Avro and Excel files, and Azure storage. You can add or remove a runtime later in Settings → Runtimes, and each Spark profile chooses the runtime it runs on.
 
 They can be installed for your user only, or, with administrator rights, once **for all users** of the computer.
 
