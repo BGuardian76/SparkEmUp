@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.2.0] - 2026-10-23
 ### Added
 - Azure storage: connections to storage accounts with an account key, a SAS token, a service principal or the Azurite emulator. Secrets are kept in your system's keychain, or only for the current run if you prefer. Browse containers and folders, preview files, see their properties, create folders, rename, move and delete, and make SAS links. A transfers queue handles downloads, uploads and copies between accounts.
 - Spark can read and write Azure storage: turn on "Use in Spark" on a connection and its credentials go into the session, kept up to date when Spark restarts or the connection changes. Account keys are hidden in the UI and the logs.
