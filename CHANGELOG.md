@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.2.1] - 2026-10-26
 ### Added
 - Startup steps in Spark profiles: Scala files, Python files and notebooks (all their cells, or only the ones you pick) that run before any notebook does. Scala files and the notebooks' Scala and SQL cells run once each time Spark starts. Python files and Python cells run in each notebook's Python before its first cell, so their imports and helpers are there in every notebook. A step that fails stops the ones after it, and a "Startup failed" button in the status bar shows which step failed, its error and its output. A profile's old Scala startup script carries over as its first step.
 - Delta settings in Spark profiles: turn Delta Lake off for a lighter Spark, or make new tables Delta by default, and switch optimized writes, auto compaction, adding new columns on write, deletion vectors and change data feed for new tables, and VACUUM's 7-day check.
