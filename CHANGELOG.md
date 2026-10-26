@@ -6,6 +6,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Startup steps in Spark profiles: Scala files, Python files and notebooks (all their cells, or only the ones you pick) that run before any notebook does. Scala files and the notebooks' Scala and SQL cells run once each time Spark starts. Python files and Python cells run in each notebook's Python before its first cell, so their imports and helpers are there in every notebook. A step that fails stops the ones after it, and a "Startup failed" button in the status bar shows which step failed, its error and its output. A profile's old Scala startup script carries over as its first step.
+- Delta settings in Spark profiles: turn Delta Lake off for a lighter Spark, or make new tables Delta by default, and switch optimized writes, auto compaction, adding new columns on write, deletion vectors and change data feed for new tables, and VACUUM's 7-day check.
+- "Size for your data" in Spark profiles: small, medium and large data presets worked out from your computer's cores and memory. Each sets the cores, the driver's memory, the largest result and the shuffle partitions, and says why.
+- Settings → Maven & network: Maven repositories with a login (user and password or token), Azure Artifacts feeds with a personal access token, and a proxy (off, the system's, or set by hand). The proxy is used for Maven, runtime downloads, Azure, Databricks, Python cells, and Spark's own Azure and S3 file systems. Passwords are kept in your system's keychain or only for the current run, and Test shows what each repository answered.
+- Libraries tab: every library of a profile in one list with a details pane, and an Add library… dialog that searches Maven Central as you type, flags packages built for another Scala version, and offers each package's versions with their dates.
+- The Catalog and Delta tabs work on remote Spark targets too, including Databricks with Unity Catalog's catalogs. A target picker in the Catalog header connects only when asked.
+- Azure: search resources by name and type across every subscription.
+- Notebook tree: a filter box that finds notebooks by name, and searches inside notebooks for text in their cells. A match opens the notebook at that cell with the text selected.
+- Add cells anywhere: a "+ cell" button shows between cells and before the first one, and its menu picks the language or sets the notebook's default. Cells can be moved up and down.
+- Cells:
+  - Tab indents (4 spaces in Python, 2 in Scala and SQL) and Shift+Tab unindents. Escape then Tab still moves the focus on.
+  - Word wrap can be turned off per cell from its menu, or with Alt+Z.
+  - The code and output heights can be dragged, and are saved with the cell. By default the code grows up to 60% of the window, and outputs scroll after half of it.
+
+### Changed
+- Settings: "Spark session" and "Spark profiles" are now one Spark tab. The app-wide settings come first, then the profile editor with sections (runtime, CPU, driver, executors, SQL, catalog, Delta, startup, Advanced). Cores and memory have their own inputs, Java and Spark folders are checked as you type, extra Spark settings are edited as rows, and changes wait for Save or Discard.
+- Library management moved from the sidebar to the Libraries tab. The sidebar keeps a short summary of the running profile's libraries.
+- Testing a Databricks target whose cluster is stopped asks before starting it, shows what the test is doing, and can be stopped. A server that doesn't answer now fails in seconds instead of a minute.
+
+### Fixed
+- A Scala cell that returns a DataFrame made by a library's own Spark session no longer fails with "table or view not found", and SQL cells can query it.
+- Azure storage: when your Azure sign-in can list an account's containers but has no data role to read them, SparkEmUp now uses the account key instead, as Storage Explorer does.
 
 ## [0.2.0] - 2026-10-23
 ### Added
