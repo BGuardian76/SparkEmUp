@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.2.2] - 2026-10-28
 ### Added
 - Databricks commands notebooks: a second kind of notebook for Databricks clusters whose access mode refuses Databricks Connect (such as No isolation shared or the legacy modes). Their SQL, Python and Scala cells run on the cluster through Databricks' own notebook API. A target's "Runs cells through" setting picks Databricks Connect or Databricks commands, and a cluster that refuses Connect switches to commands. New ones come from "New Databricks commands notebook" in the notebooks tree, which shows them with an orange icon.
   - Cell refs work across languages, and a Python or Scala cell ending in a DataFrame shows it as a table. Errors point at the line in the cell, and runs can be cancelled.
