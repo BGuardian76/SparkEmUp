@@ -6,6 +6,39 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Databricks commands notebooks: a second kind of notebook for Databricks clusters whose access mode refuses Databricks Connect (such as No isolation shared or the legacy modes). Their SQL, Python and Scala cells run on the cluster through Databricks' own notebook API. A target's "Runs cells through" setting picks Databricks Connect or Databricks commands, and a cluster that refuses Connect switches to commands. New ones come from "New Databricks commands notebook" in the notebooks tree, which shows them with an orange icon.
+  - Cell refs work across languages, and a Python or Scala cell ending in a DataFrame shows it as a table. Errors point at the line in the cell, and runs can be cancelled.
+  - Databricks sends 1,000 rows at most, but results go past that: a higher row limit keeps the rows on the cluster and pages through them, and charts and exports work on the whole result (an export is written by the cluster, to a path it can reach).
+  - The Catalog view, SQL completion and Explain work on commands targets.
+  - "Convert to…" in the notebook's Runs on menu, or in the notebooks tree, moves a notebook between Spark Connect and Databricks commands. It says first what goes (the results shown, the Python state), and picks a target.
+- Markdown cells: notes, headings, lists, tables, task lists and links between code cells. Links to a heading jump to it, and web links open in your browser.
+- Notebook outline: a side panel with the Markdown headings and the cells under them. A click scrolls to that cell.
+- Find & replace across a notebook's cells (Ctrl+Shift+F), with match case, whole word and regular expressions.
+- Charts from results: a Chart tab beside Result draws a bar, line, area, scatter or pie chart, grouped by Spark over the whole result. The chart is kept with the cell.
+- Run history: every cell run is kept (the last 5,000), with its code as it ran, its time, rows and outcome. A Run history view in the sidebar searches and filters them, and opens a run's cell or copies its code to a new cell.
+- Preview data: "Preview data" on a local or Azure file reads it with Spark into a tab with its columns and rows, to page, search, chart, export or query in a notebook.
+- Spark UI inside the app: a Spark UI tab opens from the status bar, and from a stage in the Jobs panel or a cell's Jobs tab.
+- Sizing advice from real runs: when a Spark job spills a lot, runs out of memory, returns too big a result or has a skewed stage, the status bar says so. The advice explains why and offers the profile settings to change, ready to save.
+- Jobs, Lineage and Azure transfers can each open in a window of their own ("Open in a window ↗" in the panel's header), as Logs does. Links in them open in the main window. The status bar button then opens the window, until the panel goes back to the main window.
+- Settings → Spark targets: the remote Spark targets, to add, edit and delete, as "Spark targets…" lists them.
+- Settings → Appearance: a theme (System, Light or Dark), a code font and size, and cell editor options (indentation, line numbers, indentation guides, font ligatures).
+- Settings → Keyboard: change, remove or add the shortcuts of the cell editors and of the app.
+- Cell editors:
+  - Run selection or statement (Ctrl+Shift+Enter): the selection, else the SQL statement under the caret, else the line.
+  - Format SQL (Alt+Shift+F).
+  - Several cursors (Ctrl+click, Alt+drag, Ctrl+D), folding, and find & replace inside a cell.
+  - A failed run's error is underlined where it points in the cell, with Spark's message on hover.
+
+### Changed
+- Databricks clusters whose access mode doesn't allow Spark Connect are shown but can't be picked for a Databricks Connect target, and a cluster is never started for a connection that would be refused. The cluster list shows each cluster's access mode.
+- Searching Azure resources shows that it's searching from the first key typed.
+- Earlier SparkEmUp versions can't open notebooks with Markdown cells. They open a Databricks commands notebook as an ordinary one, and saving it there makes it one.
+
+### Fixed
+- Paths with spaces or special characters: Azure files whose names have characters such as `&` are read as they are, and a space in your Windows user folder no longer stops Scala cells' Spark tasks from finding the cells' classes.
+- abfss works on Windows with Spark 3.5.
+- Fewer repeated warnings in the logs.
 
 ## [0.2.1] - 2026-10-26
 ### Added
