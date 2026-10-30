@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.2.5] - 2026-10-30
 ### Added
 - Editing Parquet data: "Edit data…" on a Parquet file or folder (in Files, the Azure explorer, and on a Catalog table stored as Parquet) opens its data preview in Edit mode. The data stays plain Parquet, encrypted files included, and big datasets work, since only the rows on screen are read.
   - Edit cells, delete rows and add rows, or change many rows at once with a `SET … WHERE` or `DELETE WHERE` rule. Changed cells are highlighted with the old value on hover.
