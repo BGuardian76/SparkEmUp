@@ -6,6 +6,38 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Editing Parquet data: "Edit data…" on a Parquet file or folder (in Files, the Azure explorer, and on a Catalog table stored as Parquet) opens its data preview in Edit mode. The data stays plain Parquet, encrypted files included, and big datasets work, since only the rows on screen are read.
+  - Edit cells, delete rows and add rows, or change many rows at once with a `SET … WHERE` or `DELETE WHERE` rule. Changed cells are highlighted with the old value on hover.
+  - Page, filter and sort over all the rows, with the changes shown on top.
+  - The changes are kept as a draft that survives a restart. Before anything is written, a review shows the rows changed, added and deleted, a sample of before and after values, and the files that will be rewritten.
+  - Writing is safe: only the files that change are rewritten, beside the data, then checked, and only then swapped in. The originals are kept as a backup, so Undo puts them back until you discard it. This works on local disk and on Azure Storage.
+  - A SQL cell's `UPDATE`, `DELETE` or `INSERT INTO` on a Parquet dataset becomes an edit too, with the same review before it's written.
+- Azure Key Vault variables: a notebook variable can take its value from a Key Vault secret. The key button in its row picks the vault (from the ones your Azure sign-in sees, or typed), the secret and a version. The notebook keeps only where the secret is, never its value. The secret is read when a cell uses it, and kept until the app restarts or "Read again", or read on every run (Settings → Notebooks). Show opens it in a popup with Copy. Once read, it shows as •••••• in Jobs, plans, errors, logs and the run history.
+- Lineage panel:
+  - Pan and zoom the graph like the plan graph: drag, the wheel, the zoom buttons or the + - 0 keys, with an overview when it doesn't fit. A large graph opens at a readable zoom. The arrow keys move between boxes.
+  - Find steps through the matching boxes, and "Only matches" keeps just them and what flows into and out of them. The header shows how many runs and datasets there are.
+  - The Lineage is kept per Spark profile, across Spark and app restarts (the last 1,000 runs). Clear empties it.
+  - A cell's details list all its runs, newest first, and mark a run whose reads or writes changed. Picking an earlier run shows what it read and wrote.
+  - A dataset shows every run that wrote it, and "As written by" picks whose columns and sources to see.
+  - "Go to the cell" opens the notebook at the cell a run came from, and runs are named "notebook › cell" from any window.
+  - Edit statements, `INSERT OVERWRITE DIRECTORY` and cells that failed now show in the graph.
+- Date and time settings (Settings → Appearance): the zone timestamps show in (Spark's session zone, this computer's, UTC or a named zone), the date order, 24 or 12-hour time and the fractions of a second, with a preview.
+- Open tabs: a button at the end of the tab strip lists every open tab, to find one by name (Ctrl+Shift+A). The tabs scroll sideways when they don't fit.
+- The docked Jobs, Lineage and Transfers panels can be resized by dragging their top edge, and minimized.
+- An Export… button next to Search over a cell's result.
+- The startup notebook picker in Spark profiles can be searched.
+
+### Changed
+- Running a cell again keeps showing its rows as Result or Chart, whichever you picked last. Before, a cell with a chart always went back to its chart.
+- Spark's options for a file or folder show right in its right-click menu, under a Spark heading, in Files and in the Azure explorer, instead of behind a Spark item that opened a second menu.
+- Links in the Jobs panel go to the cell a run came from, not just its notebook.
+
+### Fixed
+- Timestamps showed in UTC instead of Spark's session zone.
+- SparkEmUp could hang for minutes when restarting Spark after it had stopped on its own.
+- Dialogs grew wider than the window with long content, such as a long Databricks cluster name.
+- The Delta tab's and Settings' sections kept the previous one's scroll position.
 
 ## [0.2.2] - 2026-10-28
 ### Added
